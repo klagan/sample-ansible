@@ -5,9 +5,29 @@
   become_user: root
   gather_facts: yes
 
-  roles:
-    - my_git_role
+  # enable if you want to add a password to the ssh key
+  # vars_prompt:
+  #   - name: "ssh_passphrase"
+  #     prompt: "Enter the passphrase for the SSH key"
+
   vars:
-    - machine_user_name: "kam"
-    - git_user_name: "klagan"
-    - git_user_email: "github@lagan.me"
+    ssh_key_filename : id_kam
+    machine_user_name: "kam"
+
+  roles:
+
+    - role: my_git_role
+      vars:
+        git_user_name: "klagan"
+        git_user_email: "github@lagan.me"
+
+  tasks:
+    - name: generate SSH key "{{ssh_key_filename}}"
+      user:
+        name: "{{ansible_user}}"
+        generate_ssh_key: yes
+        ssh_key_type: rsa
+        ssh_key_bits: 4096
+        ssh_key_file: /home/{{machine_user_name}}/.ssh/{{ssh_key_filename}}
+        # ssh_key_passphrase: "{{ssh_passphrase}}"
+        force: no
