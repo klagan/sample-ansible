@@ -1,0 +1,13 @@
+---
+- name: Test my custom role
+  hosts: localhost
+  become: yes
+  become_user: root
+  gather_facts: yes
+
+  roles:
+    - my_git_role
+  vars:
+    - machine_user_name: "kam"
+    - git_user_name: "klagan"
+    - git_user_email: "github@lagan.me"
