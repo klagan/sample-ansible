@@ -33,6 +33,12 @@
         git_user_name: "klagan"
         git_user_email: "github@lagan.me"
 
+  handlers:
+    - name: restart ssh
+      service:
+        name: ssh
+        state: restarted
+
   tasks:
     - name: generate SSH key "{{ssh_key_filename}}"
       user:
@@ -50,7 +56,7 @@
         regexp: "{{ item }}"
         line: "{{ my_sshd_settings[item] }}"
         state: "present"
-      # notify: "restart ssh"
+      notify: "restart ssh"
       with_items:
         - "{{ my_sshd_settings | list }}"
       tags:
