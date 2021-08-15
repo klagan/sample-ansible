@@ -1,0 +1,9 @@
+---
+- name: role variable and meta playbook
+  hosts: localhost
+  become: yes
+  become_user: root
+  gather_facts: yes
+
+  roles:
+    - platform

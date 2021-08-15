@@ -1,0 +1,15 @@
+---
+dependencies:
+- role: linuxtype
+  vars:
+    type: centos
+    
+- role: linuxtype
+  vars:
+    type: ubuntu
+
+- role: linuxtype
+  vars:
+    type: kam
+
+
