@@ -1,0 +1,92 @@
+---
+# - hosts: '{{ host }}'
+- hosts: localhost
+  become: yes
+  become_user: root
+  gather_facts: yes
+
+  tasks:
+
+  - debug: msg="Host is {{ ansible_fqdn }}"
+    
+  # # needs to be installed if you want to use "check" facility of ansible-playbook (on RH)
+  # - name: Install python-apt
+  #   apt: 
+  #     name: python-apt 
+  #     state: latest 
+  #     update_cache: yes 
+  #     force_apt_get: yes
+      
+  # - name: Install new repositories
+  #   shell: |
+  #     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  #     sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+  #     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  #     rm -f packages.microsoft.gpg
+
+  - name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+      update_cache: yes
+ 
+  - name: Install required system packages
+    apt: name={{ item }} state=latest update_cache=yes
+    loop:  
+    - 'apt-transport-https'
+    - 'ca-certificates'
+    - 'curl'
+    - 'software-properties-common'
+    - 'python3-pip'
+    - 'python3-setuptools'
+    # - 'virtualenv'
+    # - bat
+    # - neofetch
+    # - stacer
+    # - timeshift
+    # - tmux
+    # - ncdu
+    # - ranger
+    # - youtube-dl
+    # #- speedread
+    # - lolcat
+    # - boxes
+    # - figlet
+    # - code
+    # - conntrack
+    # - zsh
+    # - fonts-powerline
+    # - sshguard
+    # - unattended-upgrades
+    # - sudo
+    # - fail2ban
+    # - crowdsec
+
+  # - include: hardening/install.yml
+
+  # - name: Install aptitude using apt
+  #   apt: 
+  #     name: aptitude 
+  #     state: latest 
+  #     update_cache: yes 
+  #     force_apt_get: yes
+
+  # - include: terraform/install.yml
+
+  # - include: checkov/install.yml
+
+  # - include: docker/install.yml
+
+  # - include: ohmyzsh/install.yml
+
+  - include: ufw/install.yml
+
+  # edit the .configuration in the ./git folder before enabling this
+  # - include: git/install.yml
+
+  - name: install lynx
+    apt:
+      name: lynx
+      state: present
+    environment:
+      RUNLEVEL: 1
+
+  # - include: minikube/install.yml
