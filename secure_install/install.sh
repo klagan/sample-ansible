@@ -1,4 +1,4 @@
-
+#!/bin/bash
 # e.g. ./script --param value
 check=${check:-true}
 
@@ -12,12 +12,12 @@ while [ $# -gt 0 ]; do
 done
 
 sudo apt update
-# sudo apt install git
-# sudo apt install ansible
-# pip install ansible-core
+sudo apt install -y curl python3 python3-pip
+python3 -m pip install --user ansible
+sudo apt install -y ansible
 
-sudo ansible-galaxy install -r requirements.yml
+sudo ansible-galaxy collection install -r requirements.yml
 
-if [ "$check" = "false" ]; then sudo ansible-playbook devbox.yml; echo "(not checked)"; else sudo ansible-playbook devbox.yml --check; echo "checked"; fi 
+if [ "$check" = "false" ]; then sudo ansible-playbook install.yml; else sudo ansible-playbook install.yml --check; fi 
 
-echo "Script complete (check = $check)"
+echo "Script complete (check = $2 -> $check)"
