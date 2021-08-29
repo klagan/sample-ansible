@@ -16,8 +16,8 @@ sudo apt install -y curl python3 python3-pip
 python3 -m pip install --user ansible
 sudo apt install -y ansible
 
-sudo ansible-galaxy collection install -r requirements.yml
+sudo ansible-galaxy collection install -r secure-requirements.yml
 
-if [ "$check" = "false" ]; then sudo ansible-playbook install.yml; else sudo ansible-playbook install.yml --check; fi 
+if [ "$check" = "false" ]; then sudo ansible-playbook secure-install.yml; else sudo ansible-playbook secure-install.yml --check; fi 
 
 echo "Script complete (check = $2 -> $check)"
