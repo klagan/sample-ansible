@@ -1,5 +1,14 @@
 # Getting started
 
+```bash
+# ensure openssh server is installed
+sudo apt-get install openssh-server openssh-client
+
+# run playbook as root (remember to exclude check)
+sudo ansible-playbook -K ./my_playbook.yaml -u root —check
+```
+
+---
 [source](https://galaxy.ansible.com/docs/contributing/creating_role.html)
 
 ```
